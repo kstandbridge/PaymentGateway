@@ -1,12 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using PaymentGateway.Models;
+using PaymentGateway.Processors;
 
 namespace PaymentGateway.ServiceClients
 {
     public interface IBankServiceClient
     {
-        Task<GetPayment> GetByIdAsync(Guid id);
-        Task<GetPayment> CreateAsync(CreatePayment createPayment);
+        Task<BankPaymentResponse> CreateOrderAsync(SubmitPaymentCommand submitPaymentCommand);
     }
 }

@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 using PaymentGateway.Managers;
+using PaymentGateway.Processors;
+using PaymentGateway.Repositories;
 using PaymentGateway.ServiceClients;
 
 namespace PaymentGateway
@@ -29,8 +31,11 @@ namespace PaymentGateway
             });
 
             services.AddSingleton<IClock>(SystemClock.Instance);
+            services.AddSingleton<ICommandQueue<SubmitPaymentCommand>, InMemoryCommandQueue<SubmitPaymentCommand>>();
+            services.AddSingleton<IPaymentRepository, InMemoryPaymentRepository>();
             services.AddSingleton<IBankServiceClient, FakeBankServiceClient>();
             services.AddScoped<IPaymentManager, PaymentManager>();
+            services.AddHostedService<CreatePaymentProcessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

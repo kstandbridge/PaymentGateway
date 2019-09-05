@@ -1,27 +1,38 @@
 ﻿using System;
 using System.Threading.Tasks;
 using PaymentGateway.Models;
-using PaymentGateway.ServiceClients;
+using PaymentGateway.Processors;
+using PaymentGateway.Repositories;
 
 namespace PaymentGateway.Managers
 {
     public class PaymentManager : IPaymentManager
     {
-        private readonly IBankServiceClient _bankServiceClient;
+        private readonly ICommandQueue<SubmitPaymentCommand> _submitPaymentCommandQueue;
+        private readonly IPaymentRepository _paymentRepository;
 
-        public PaymentManager(IBankServiceClient bankServiceClient)
+        public PaymentManager(
+            ICommandQueue<SubmitPaymentCommand> submitPaymentCommandQueue,
+            IPaymentRepository paymentRepository)
         {
-            _bankServiceClient = bankServiceClient;
+            _submitPaymentCommandQueue = submitPaymentCommandQueue;
+            _paymentRepository = paymentRepository;
         }
 
-        public Task<GetPayment> GetByIdAsync(Guid id)
+        public async Task<GetPayment> GetByIdAsync(Guid id)
         {
-            return _bankServiceClient.GetByIdAsync(id);
+            var payment = await _paymentRepository.GetByIdAsync(id);
+            
+            if (payment == null) return null;
+
+            return new GetPayment(payment);
         }
 
-        public Task<GetPayment> CreateAsync(CreatePayment createPayment)
+        public async Task<GetPayment> CreateAsync(CreatePayment createPayment)
         {
-            return _bankServiceClient.CreateAsync(createPayment);
+            var payment = await _paymentRepository.CreateAsync(createPayment);
+            _submitPaymentCommandQueue.QueueCommand(new SubmitPaymentCommand(payment.Id));
+            return new GetPayment(payment);
         }
     }
 }
