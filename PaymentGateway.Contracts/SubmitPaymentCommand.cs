@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PaymentGateway.Processors
+namespace PaymentGateway.Contracts
 {
     public class SubmitPaymentCommand
     {

@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
-using PaymentGateway.Processors;
+using PaymentGateway.BankService.Contracts;
+using PaymentGateway.Contracts;
 
-namespace PaymentGateway.ServiceClients
+namespace PaymentGateway.BankService
 {
     public class FakeBankServiceClient : IBankServiceClient
     {

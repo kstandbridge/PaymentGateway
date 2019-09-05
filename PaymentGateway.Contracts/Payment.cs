@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PaymentGateway.Models
+namespace PaymentGateway.Contracts
 {
     public class Payment
     {

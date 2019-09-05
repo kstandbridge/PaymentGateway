@@ -1,12 +1,5 @@
 # Payment Gateway
 
-CQRS > Event Driven Workflow
-Gateway cannot be the bottleneck
-
-# You order has been recieved
-# You order has been processed
-# You order has been paid
-
 API to Create payment > returns Id
 * FluentValidations
 * StoringCard information
@@ -14,16 +7,12 @@ API to Create payment > returns Id
 CreatePaymentProcessor
 * Call the acquiring bank to update the process
 
-
-# Tech to use
-
-
 # TODO
-Maybe check Paypal developer API to see their flow, to better understand flow of a payment gateway
+* Validate requests - FluentValidations?
+* BDD - SpecFlow?
+* Look into Scaling with: https://github.com/HangfireIO/Hangfire
 
-Scaling with
- - https://github.com/HangfireIO/Hangfire
-
+# Extras
 * Application logging
  - Serilog
 * Application metrics 

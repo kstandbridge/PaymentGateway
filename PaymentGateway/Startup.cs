@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
-using PaymentGateway.Managers;
-using PaymentGateway.Processors;
-using PaymentGateway.Repositories;
-using PaymentGateway.ServiceClients;
+using PaymentGateway.BankService;
+using PaymentGateway.Contracts;
+using PaymentGateway.Data;
+using PaymentGateway.Domain;
+using PaymentGateway.Processing;
 
 namespace PaymentGateway
 {

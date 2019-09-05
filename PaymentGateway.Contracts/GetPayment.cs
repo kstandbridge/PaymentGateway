@@ -1,7 +1,7 @@
 ﻿using System;
-using PaymentGateway.Extensions;
+using PaymentGateway.Shared.Extensions;
 
-namespace PaymentGateway.Models
+namespace PaymentGateway.Contracts
 {
     public class GetPayment
     {
@@ -14,6 +14,7 @@ namespace PaymentGateway.Models
             ExpiryYear = payment.ExpiryYear;
             Amount = payment.Amount;
             Currency = payment.Currency;
+            BankTransactionId = payment.BankTransactionId;
         }
 
         public Guid Id { get; set; }
@@ -23,5 +24,6 @@ namespace PaymentGateway.Models
         public int ExpiryYear { get; set; }
         public int Amount { get; set; }
         public string Currency { get; set; }
+        public Guid BankTransactionId { get; set; }
     }
 }

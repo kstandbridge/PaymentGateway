@@ -1,4 +1,4 @@
-﻿namespace PaymentGateway.Extensions
+﻿namespace PaymentGateway.Shared.Extensions
 {
     public static class StringExtensions
     {

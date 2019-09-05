@@ -1,4 +1,4 @@
-﻿namespace PaymentGateway.Models
+﻿namespace PaymentGateway.Contracts
 {
     public class CreatePayment
     {

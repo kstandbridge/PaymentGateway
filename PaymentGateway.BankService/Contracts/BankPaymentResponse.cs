@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PaymentGateway.ServiceClients
+namespace PaymentGateway.BankService.Contracts
 {
     public class BankPaymentResponse
     {

@@ -2,9 +2,9 @@
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using NodaTime;
-using PaymentGateway.Models;
+using PaymentGateway.Contracts;
 
-namespace PaymentGateway.Repositories
+namespace PaymentGateway.Data
 {
     public class InMemoryPaymentRepository : IPaymentRepository
     {

@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using PaymentGateway.Models;
-using PaymentGateway.Processors;
+using PaymentGateway.BankService.Contracts;
+using PaymentGateway.Contracts;
 
-namespace PaymentGateway.ServiceClients
+namespace PaymentGateway.BankService
 {
     public interface IBankServiceClient
     {

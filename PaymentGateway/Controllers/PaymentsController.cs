@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
-using PaymentGateway.Managers;
-using PaymentGateway.Models;
+using PaymentGateway.Contracts;
+using PaymentGateway.Domain;
 
 namespace PaymentGateway.Controllers
 {

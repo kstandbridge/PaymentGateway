@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using PaymentGateway.Models;
-using PaymentGateway.Processors;
-using PaymentGateway.Repositories;
+using PaymentGateway.Contracts;
+using PaymentGateway.Data;
+using PaymentGateway.Processing;
 
-namespace PaymentGateway.Managers
+namespace PaymentGateway.Domain
 {
     public class PaymentManager : IPaymentManager
     {

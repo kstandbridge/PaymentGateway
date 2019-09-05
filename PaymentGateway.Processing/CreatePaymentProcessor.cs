@@ -1,11 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
-using PaymentGateway.Models;
-using PaymentGateway.Repositories;
-using PaymentGateway.ServiceClients;
+using PaymentGateway.BankService;
+using PaymentGateway.Contracts;
+using PaymentGateway.Data;
 
-namespace PaymentGateway.Processors
+namespace PaymentGateway.Processing
 {
     public class CreatePaymentProcessor : BackgroundService
     {

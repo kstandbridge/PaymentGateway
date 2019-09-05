@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using PaymentGateway.Models;
+using PaymentGateway.Contracts;
 
-namespace PaymentGateway.Repositories
+namespace PaymentGateway.Data
 {
     public interface IPaymentRepository
     {
