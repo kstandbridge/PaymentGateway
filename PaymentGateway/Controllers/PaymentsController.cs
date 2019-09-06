@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
@@ -13,10 +14,14 @@ namespace PaymentGateway.Controllers
     public class PaymentsController : ControllerBase
     {
         private readonly IPaymentManager _paymentManager;
+        private readonly IValidator<CreatePayment> _createPaymentValidator;
 
-        public PaymentsController(IPaymentManager paymentManager)
+        public PaymentsController(
+            IPaymentManager paymentManager,
+            IValidator<CreatePayment> createPaymentValidator)
         {
             _paymentManager = paymentManager;
+            _createPaymentValidator = createPaymentValidator;
         }
 
         [HttpGet("{id}")]
@@ -49,6 +54,8 @@ namespace PaymentGateway.Controllers
             {
                 return BadRequest();
             }
+
+            await _createPaymentValidator.ValidateAndThrowAsync(createPayment);
 
             var result = await _paymentManager.CreateAsync(createPayment);
             return CreatedAtAction(nameof(Get), new {id = result.Id}, result);

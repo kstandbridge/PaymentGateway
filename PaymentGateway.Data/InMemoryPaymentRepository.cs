@@ -37,8 +37,8 @@ namespace PaymentGateway.Data
                 Amount = createPayment.Amount,
                 CVV = createPayment.CVV,
                 Currency = createPayment.Currency,
-                ExpiryMonth = createPayment.ExpiryMonth,
-                ExpiryYear = createPayment.ExpiryYear,
+                ExpiryMonth = (short)createPayment.ExpiryDate.Month,
+                ExpiryYear = createPayment.ExpiryDate.Year,
                 PaymentStatus = PaymentStatus.InProgress
             };
 

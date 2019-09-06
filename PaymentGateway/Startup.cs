@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +10,7 @@ using PaymentGateway.Contracts;
 using PaymentGateway.Data;
 using PaymentGateway.Domain;
 using PaymentGateway.Processing;
+using PaymentGateway.Validators;
 
 namespace PaymentGateway
 {
@@ -35,6 +37,7 @@ namespace PaymentGateway
             services.AddSingleton<ICommandQueue<SubmitPaymentCommand>, InMemoryCommandQueue<SubmitPaymentCommand>>();
             services.AddSingleton<IPaymentRepository, InMemoryPaymentRepository>();
             services.AddSingleton<IBankServiceClient, FakeBankServiceClient>();
+            services.AddScoped<IValidator<CreatePayment>, CreatePaymentValidator>();
             services.AddScoped<IPaymentManager, PaymentManager>();
             services.AddHostedService<CreatePaymentProcessor>();
         }
