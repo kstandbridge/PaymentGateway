@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/PaymentGateway",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:60268/",
       "sslPort": 0
@@ -19,6 +23,7 @@
     "PaymentGateway": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

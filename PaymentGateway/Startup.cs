@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Collections.Generic;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,8 @@ using PaymentGateway.Contracts;
 using PaymentGateway.Data;
 using PaymentGateway.Domain;
 using PaymentGateway.Processing;
+using PaymentGateway.Telemetry;
+using PaymentGateway.Telemetry.Submitters;
 using PaymentGateway.Validators;
 
 namespace PaymentGateway
@@ -36,10 +39,21 @@ namespace PaymentGateway
             services.AddSingleton<IClock>(SystemClock.Instance);
             services.AddSingleton<ICommandQueue<SubmitPaymentCommand>, InMemoryCommandQueue<SubmitPaymentCommand>>();
             services.AddSingleton<IPaymentRepository, InMemoryPaymentRepository>();
-            services.AddSingleton<IBankServiceClient, FakeBankServiceClient>();
-            services.AddScoped<IValidator<CreatePayment>, CreatePaymentValidator>();
-            services.AddScoped<IPaymentManager, PaymentManager>();
+            services.AddTransient<IBankServiceClient, FakeBankServiceClient>();
+            services.AddTransient<IValidator<CreatePayment>, CreatePaymentValidator>();
+            services.AddTransient<IPaymentManager, PaymentManager>();
             services.AddHostedService<CreatePaymentProcessor>();
+
+            ConfigureTelemetry(services);
+        }
+
+        private static void ConfigureTelemetry(IServiceCollection services)
+        {
+            var submitters = new List<ITelemetrySubmitter>();
+            submitters.Add(new ConsoleTelemetrySubmitter());
+
+            services.AddTransient<List<ITelemetrySubmitter>>(provider => submitters);
+            services.AddSingleton<ITelemetrySubmitter, TelemetryManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

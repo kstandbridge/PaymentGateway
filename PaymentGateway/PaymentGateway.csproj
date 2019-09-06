@@ -22,6 +22,7 @@
     <ProjectReference Include="..\PaymentGateway.BankService\PaymentGateway.BankService.csproj" />
     <ProjectReference Include="..\PaymentGateway.Data\PaymentGateway.Data.csproj" />
     <ProjectReference Include="..\PaymentGateway.Domain\PaymentGateway.Domain.csproj" />
+    <ProjectReference Include="..\PaymentGateway.Telemetry\PaymentGateway.Telemetry.csproj" />
   </ItemGroup>
 
   <Target Name="NSwag" AfterTargets="Build" Condition="'$(NCrunch)' != '1'">

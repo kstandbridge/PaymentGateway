@@ -1,9 +1,14 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using PaymentGateway.BankService;
 using PaymentGateway.Contracts;
 using PaymentGateway.Data;
+using PaymentGateway.Telemetry.Extensions;
+using PaymentGateway.Telemetry.Models;
+using PaymentGateway.Telemetry.Submitters;
 
 namespace PaymentGateway.Processing
 {
@@ -12,15 +17,21 @@ namespace PaymentGateway.Processing
         private readonly ICommandQueue<SubmitPaymentCommand> _commandQueue;
         private readonly IPaymentRepository _paymentRepository;
         private readonly IBankServiceClient _bankServiceClient;
+        private readonly ITelemetrySubmitter _telemetrySubmitter;
+        private readonly ILogger<CreatePaymentProcessor> _logger;
 
         public CreatePaymentProcessor(
             ICommandQueue<SubmitPaymentCommand> commandQueue, 
             IPaymentRepository paymentRepository,
-            IBankServiceClient bankServiceClient)
+            IBankServiceClient bankServiceClient,
+            ITelemetrySubmitter telemetrySubmitter,
+            ILogger<CreatePaymentProcessor> logger)
         {
             _commandQueue = commandQueue;
             _paymentRepository = paymentRepository;
             _bankServiceClient = bankServiceClient;
+            _telemetrySubmitter = telemetrySubmitter;
+            _logger = logger;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -28,13 +39,25 @@ namespace PaymentGateway.Processing
             while (!stoppingToken.IsCancellationRequested)
             {
                 var submitPaymentCommand = await _commandQueue.DequeueAsync(stoppingToken);
-                var payment = await _paymentRepository.GetByIdAsync(submitPaymentCommand.PaymentId);
 
-                var result = await _bankServiceClient.CreateOrderAsync(submitPaymentCommand);
-                payment.PaymentStatus = result.IsSuccessful ? PaymentStatus.Success : PaymentStatus.Failed;
-                payment.BankTransactionId = result.Id;
+                using (var operation = _telemetrySubmitter.BeginTimedOperation(new ServiceOperation(nameof(CreatePaymentProcessor), nameof(ExecuteAsync))))
+                {
+                    try
+                    {
+                        var payment = await _paymentRepository.GetByIdAsync(submitPaymentCommand.PaymentId);
 
-                await _paymentRepository.UpdateAsync(payment);
+                        var result = await _bankServiceClient.CreateOrderAsync(submitPaymentCommand);
+                        payment.PaymentStatus = result.IsSuccessful ? PaymentStatus.Success : PaymentStatus.Failed;
+                        payment.BankTransactionId = result.Id;
+
+                        await _paymentRepository.UpdateAsync(payment);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Failed to CreatePayment due to {0}", ex.Message);
+                        operation.SetFaulted(ex);
+                    }
+                }
             }
         }
     }
