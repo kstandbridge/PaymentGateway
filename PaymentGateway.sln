@@ -8,7 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{211277FB-6999-41A7-B880-97690A34E8D1}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		DockerFile = DockerFile
 		nswag.json = nswag.json
+		nuget.config = nuget.config
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -24,9 +26,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentGateway.Shared", "Pa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentGateway.BankService", "PaymentGateway.BankService\PaymentGateway.BankService.csproj", "{679F41C4-848C-4010-BA1F-EA40D676DDB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.Client", "PaymentGateway.Client\PaymentGateway.Client.csproj", "{5DD2B046-1009-41AD-98C4-C1D17221D274}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentGateway.Client", "PaymentGateway.Client\PaymentGateway.Client.csproj", "{5DD2B046-1009-41AD-98C4-C1D17221D274}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.Telemetry", "PaymentGateway.Telemetry\PaymentGateway.Telemetry.csproj", "{800EBEB3-2F0E-4FEB-9481-0747D57BCBEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentGateway.Telemetry", "PaymentGateway.Telemetry\PaymentGateway.Telemetry.csproj", "{800EBEB3-2F0E-4FEB-9481-0747D57BCBEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

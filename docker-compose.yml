@@ -1,0 +1,6 @@
+services:
+  payment-gateway:
+    build: .
+    ports:
+      - "6125:6125"
+version: "3"

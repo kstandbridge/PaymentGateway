@@ -7,8 +7,6 @@
 # Extras
 * Application metrics 
  - AppMetrics
-* Containerization
- - Use Docker?
 * Authentication 
  - OpenID?
 * Build script / CI 
