@@ -10,7 +10,7 @@ namespace PaymentGateway.Telemetry.Submitters
         {
             var json = JsonConvert.SerializeObject(message);
             
-            Console.WriteLine(json);
+            Console.WriteLine($"Telemetry Action: {message.GetType()}, Payload: {json}");
 
             return Task.FromResult(true);
         }

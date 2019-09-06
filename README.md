@@ -5,8 +5,6 @@
 * Look into Scaling with: https://github.com/HangfireIO/Hangfire
 
 # Extras
-* Application logging
- - Serilog
 * Application metrics 
  - AppMetrics
 * Containerization

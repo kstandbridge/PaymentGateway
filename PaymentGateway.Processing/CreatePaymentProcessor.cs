@@ -40,6 +40,8 @@ namespace PaymentGateway.Processing
             {
                 var submitPaymentCommand = await _commandQueue.DequeueAsync(stoppingToken);
 
+                _logger.LogInformation("Processing payment Id: {0}", submitPaymentCommand.PaymentId);
+
                 using (var operation = _telemetrySubmitter.BeginTimedOperation(new ServiceOperation(nameof(CreatePaymentProcessor), nameof(ExecuteAsync))))
                 {
                     try
@@ -48,6 +50,9 @@ namespace PaymentGateway.Processing
 
                         var result = await _bankServiceClient.CreateOrderAsync(submitPaymentCommand);
                         payment.PaymentStatus = result.IsSuccessful ? PaymentStatus.Success : PaymentStatus.Failed;
+
+                        _logger.LogInformation("Setting payment Id: {0} as {1}", submitPaymentCommand.PaymentId, payment.PaymentStatus);
+
                         payment.BankTransactionId = result.Id;
 
                         await _paymentRepository.UpdateAsync(payment);
