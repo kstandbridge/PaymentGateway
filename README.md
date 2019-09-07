@@ -7,11 +7,17 @@ This is mostly built against abstracts, so we could replace
 * The InMemoryCommandQueue with a RabbitMQ implementation or similar
 * The FakeBankServiceClient with a real bank
 
-# Run down of features
+# Features
 * Built using dotnetcore 2.2
 * Containerized using Docker
 * Swagger generated API page and C# client
 * Telemetry timings and failure rates
+
+# Running
+```sh
+$docker-compose up -d --build
+```
+Then navigate to: http://localhost:6125/swagger
 
 # TODO
 * Application metrics 
