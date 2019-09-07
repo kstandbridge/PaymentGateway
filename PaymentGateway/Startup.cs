@@ -11,6 +11,8 @@ using PaymentGateway.Contracts;
 using PaymentGateway.Data;
 using PaymentGateway.Domain;
 using PaymentGateway.Processing;
+using PaymentGateway.Processing.Managers;
+using PaymentGateway.Processing.Queues;
 using PaymentGateway.Telemetry;
 using PaymentGateway.Telemetry.Submitters;
 using PaymentGateway.Validators;
@@ -42,6 +44,7 @@ namespace PaymentGateway
             services.AddTransient<IBankServiceClient, FakeBankServiceClient>();
             services.AddTransient<IValidator<CreatePayment>, CreatePaymentValidator>();
             services.AddTransient<IPaymentManager, PaymentManager>();
+            services.AddTransient<ICreatePaymentManager, CreatePaymentManager>();
             services.AddHostedService<CreatePaymentProcessor>();
 
             ConfigureTelemetry(services);

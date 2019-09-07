@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PaymentGateway.Processing
+namespace PaymentGateway.Processing.Queues
 {
     public class InMemoryCommandQueue<T> : ICommandQueue<T>
     {

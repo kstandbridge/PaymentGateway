@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace PaymentGateway.Processing
+namespace PaymentGateway.Processing.Queues
 {
     public interface ICommandQueue<T>
     {

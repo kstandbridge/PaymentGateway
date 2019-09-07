@@ -2,7 +2,7 @@
 using Moq;
 using PaymentGateway.Contracts;
 using PaymentGateway.Data;
-using PaymentGateway.Processing;
+using PaymentGateway.Processing.Queues;
 
 namespace PaymentGateway.Domain.Tests.PaymentManagerTests
 {
