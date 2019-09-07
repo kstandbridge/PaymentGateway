@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using PaymentGateway.BankService.Contracts;
 using PaymentGateway.Contracts;
 
@@ -8,7 +9,7 @@ namespace PaymentGateway.BankService
     {
         public Task<BankPaymentResponse> CreateOrderAsync(SubmitPaymentCommand submitPaymentCommand)
         {
-            return Task.FromResult(new BankPaymentResponse { IsSuccessful = true });
+            return Task.FromResult(new BankPaymentResponse { IsSuccessful = true, Id = Guid.NewGuid() });
         }
     }
 }
