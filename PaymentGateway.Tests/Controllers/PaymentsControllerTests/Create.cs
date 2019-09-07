@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
-using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -23,7 +22,7 @@ namespace PaymentGateway.Tests.Controllers.PaymentsControllerTests
             var createPayment = Fixture.Create<CreatePayment>();
             var expected = Fixture.Create<GetPayment>();
             CreatePaymentValidatorMock
-                .Setup(m => m.ValidateAsync(It.IsAny<ValidationContext>(), It.IsAny<CancellationToken>()))
+                .Setup(m => m.ValidateAsync(It.IsAny<CreatePayment>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new ValidationResult());
             PaymentManagerMock
                 .Setup(m => m.CreateAsync(createPayment))
@@ -43,7 +42,7 @@ namespace PaymentGateway.Tests.Controllers.PaymentsControllerTests
             var createPayment = Fixture.Create<CreatePayment>();
             var expected = Fixture.Create<GetPayment>();
             CreatePaymentValidatorMock
-                .Setup(m => m.ValidateAsync(It.IsAny<ValidationContext>(), It.IsAny<CancellationToken>()))
+                .Setup(m => m.ValidateAsync(It.IsAny<CreatePayment>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new ValidationResult());
             PaymentManagerMock
                 .Setup(m => m.CreateAsync(createPayment))
@@ -57,10 +56,30 @@ namespace PaymentGateway.Tests.Controllers.PaymentsControllerTests
         }
 
         [Fact]
+        public async Task Get_InvalidRequest_ReturnsBadRequest()
+        {
+            // arrange
+            var createPayment = Fixture.Create<CreatePayment>();
+            const HttpStatusCode expected = HttpStatusCode.BadRequest;
+            CreatePaymentValidatorMock
+                .Setup(m => m.ValidateAsync(It.IsAny<CreatePayment>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new ValidationResult(Fixture.CreateMany<ValidationFailure>()));
+
+            // act
+            var actual = await SUT.Create(createPayment);
+
+            // assert
+            actual.AssertStatusCode(expected);
+        }
+
+        [Fact]
         public async Task Get_NullRequest_ReturnsBadRequest()
         {
             // arrange
             const HttpStatusCode expected = HttpStatusCode.BadRequest;
+            CreatePaymentValidatorMock
+                .Setup(m => m.ValidateAsync(It.IsAny<CreatePayment>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new ValidationResult(Fixture.CreateMany<ValidationFailure>()));
 
             // act
             var actual = await SUT.Create(null);
@@ -75,7 +94,7 @@ namespace PaymentGateway.Tests.Controllers.PaymentsControllerTests
             // arrange
             var createPayment = Fixture.Create<CreatePayment>();
             CreatePaymentValidatorMock
-                .Setup(m => m.ValidateAsync(It.IsAny<ValidationContext>(), It.IsAny<CancellationToken>()))
+                .Setup(m => m.ValidateAsync(It.IsAny<CreatePayment>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new ValidationResult());
             PaymentManagerMock
                 .Setup(m => m.CreateAsync(createPayment))
@@ -93,7 +112,7 @@ namespace PaymentGateway.Tests.Controllers.PaymentsControllerTests
             // arrange
             var createPayment = Fixture.Create<CreatePayment>();
             CreatePaymentValidatorMock
-                .Setup(m => m.ValidateAsync(It.IsAny<ValidationContext>(), It.IsAny<CancellationToken>()))
+                .Setup(m => m.ValidateAsync(It.IsAny<CreatePayment>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new ValidationResult());
             PaymentManagerMock
                 .Setup(m => m.CreateAsync(createPayment))

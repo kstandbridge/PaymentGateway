@@ -24,7 +24,7 @@ namespace PaymentGateway.Domain
         }
 
         /// <summary>
-        /// Gets an existing payment using is unique identifier
+        /// Gets an existing payment using its unique identifier.
         /// </summary>
         /// <param name="id">The unique identifier.</param>
         /// <returns>The get payment response.</returns>

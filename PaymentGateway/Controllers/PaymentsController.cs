@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
@@ -87,12 +88,11 @@ namespace PaymentGateway.Controllers
         [SwaggerResponse(StatusCodes.Status400BadRequest, typeof(void))]
         public async Task<IActionResult> Create([FromBody] CreatePayment createPayment)
         {
-            if (createPayment == null)
+            var validate = await _createPaymentValidator.ValidateAsync(createPayment);
+            if (!validate.IsValid)
             {
-                return BadRequest();
+                return BadRequest(validate.Errors.Select(e => e.ErrorMessage));
             }
-
-            await _createPaymentValidator.ValidateAndThrowAsync(createPayment);
 
             GetPayment result;
 
