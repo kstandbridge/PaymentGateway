@@ -15,7 +15,7 @@ This is mostly built against abstracts, so we could replace
 
 # Running
 ```sh
-$docker-compose up -d --build
+$ docker-compose up -d --build
 ```
 Then navigate to: http://localhost:6125/swagger
 
