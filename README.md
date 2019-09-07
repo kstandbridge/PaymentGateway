@@ -1,6 +1,6 @@
 # Payment Gateway
 
-This payment gateway is designed to sit between a merchant and the acquiring bank. A merchant can place a purchase request, and query the status of the purchase. To help with scaling, upon receiving a payment request we will immediately respond with a unique identifier and pass on the request to be handled by backend processors, which will be responsible for calling the acquiring bank.
+This payment gateway is designed to sit between a merchant and the acquiring bank. A merchant can place a payment request, and query the status of the payment. To help with scaling, upon receiving a payment request we will immediately respond with a unique identifier and pass on the request to be handled by backend processors, which will be responsible for calling the acquiring bank and updating the status of the payment.
 
 This is mostly built against abstracts, so we could replace
 * The InMemoryPaymentRepository with a Couchbase implementation or similar
