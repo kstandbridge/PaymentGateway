@@ -2,7 +2,12 @@
 {
     public static class StringExtensions
     {
-        public static string Mask(this string input)
+        /// <summary>
+        /// Masks a credit card number to only return the first and last 4 digits
+        /// </summary>
+        /// <param name="input">The credit card number.</param>
+        /// <returns>The masked credit card number.</returns>
+        public static string MaskCreditCard(this string input)
         {
             input = input.Replace("-", string.Empty);
             string first = input.Substring(0, 4);

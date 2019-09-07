@@ -6,6 +6,9 @@ using PaymentGateway.Telemetry.Submitters;
 
 namespace PaymentGateway.Telemetry
 {
+    /// <summary>
+    /// The Telemetry Manager.
+    /// </summary>
     public class TelemetryManager : ITelemetrySubmitter
     {
         private readonly ILogger<TelemetryManager> _logger;
@@ -19,6 +22,11 @@ namespace PaymentGateway.Telemetry
             _logger = logger;
         }
 
+        /// <summary>
+        /// Submits the message to all telemetry submitters.
+        /// </summary>
+        /// <param name="message">The telemetry message.</param>
+        /// <returns></returns>
         public async Task<bool> SubmitAsync(object message)
         {
             try

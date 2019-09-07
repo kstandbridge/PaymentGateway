@@ -5,6 +5,6 @@ namespace PaymentGateway.Processing.Managers
 {
     public interface ICreatePaymentManager
     {
-        Task ExecuteAsync(SubmitPaymentCommand submitPaymentCommand);
+        Task ProcessPaymentAsync(SubmitPaymentCommand submitPaymentCommand);
     }
 }

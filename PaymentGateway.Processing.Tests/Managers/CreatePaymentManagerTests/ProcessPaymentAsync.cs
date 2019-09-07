@@ -9,10 +9,10 @@ using Xunit;
 
 namespace PaymentGateway.Processing.Tests.Managers.CreatePaymentManagerTests
 {
-    public class ExecuteAsync : CreatePaymentManagerFixture
+    public class ProcessPaymentAsync : CreatePaymentManagerFixture
     {
         [Fact]
-        public async Task ExecuteAsync_HappyPath_CallsBank()
+        public async Task ProcessPaymentAsync_HappyPath_CallsBank()
         {
             // arrange
             var command = Fixture.Create<SubmitPaymentCommand>();
@@ -25,7 +25,7 @@ namespace PaymentGateway.Processing.Tests.Managers.CreatePaymentManagerTests
                 .ReturnsAsync(new BankPaymentResponse {IsSuccessful = true, Id = Guid.NewGuid()});
 
             // act
-            await SUT.ExecuteAsync(command);
+            await SUT.ProcessPaymentAsync(command);
 
             // assert
             BankServiceClientMock
@@ -33,7 +33,7 @@ namespace PaymentGateway.Processing.Tests.Managers.CreatePaymentManagerTests
         }
 
         [Fact]
-        public async Task ExecuteAsync_HappyPath_SetsOrderStatus()
+        public async Task ProcessPaymentAsync_HappyPath_SetsOrderStatus()
         {
             // arrange
             var command = Fixture.Create<SubmitPaymentCommand>();
@@ -46,7 +46,7 @@ namespace PaymentGateway.Processing.Tests.Managers.CreatePaymentManagerTests
                 .ReturnsAsync(new BankPaymentResponse {IsSuccessful = true, Id = Guid.NewGuid()});
 
             // act
-            await SUT.ExecuteAsync(command);
+            await SUT.ProcessPaymentAsync(command);
 
             // assert
             PaymentRepositoryMock
@@ -54,7 +54,7 @@ namespace PaymentGateway.Processing.Tests.Managers.CreatePaymentManagerTests
         }
 
         [Fact]
-        public async Task ExecuteAsync_HappyPath_SetsTransactionId()
+        public async Task ProcessPaymentAsync_HappyPath_SetsTransactionId()
         {
             // arrange
             var command = Fixture.Create<SubmitPaymentCommand>();
@@ -69,7 +69,7 @@ namespace PaymentGateway.Processing.Tests.Managers.CreatePaymentManagerTests
                 .ReturnsAsync(bankPaymentResponse);
 
             // act
-            await SUT.ExecuteAsync(command);
+            await SUT.ProcessPaymentAsync(command);
 
             // assert
             PaymentRepositoryMock
@@ -77,7 +77,7 @@ namespace PaymentGateway.Processing.Tests.Managers.CreatePaymentManagerTests
         }
 
         [Fact]
-        public async Task ExecuteAsync_HappyPath_ReportsToTelemetry()
+        public async Task ProcessPaymentAsync_HappyPath_ReportsToTelemetry()
         {
             // arrange
             var command = Fixture.Create<SubmitPaymentCommand>();
@@ -92,7 +92,7 @@ namespace PaymentGateway.Processing.Tests.Managers.CreatePaymentManagerTests
                 .ReturnsAsync(bankPaymentResponse);
 
             // act
-            await SUT.ExecuteAsync(command);
+            await SUT.ProcessPaymentAsync(command);
 
             // assert
             TelemetrySubmitterMock
@@ -100,7 +100,7 @@ namespace PaymentGateway.Processing.Tests.Managers.CreatePaymentManagerTests
         }
 
         [Fact]
-        public async Task ExecuteAsync_OnBankFail_SetsOrderStatus()
+        public async Task ProcessPaymentAsync_OnBankFail_SetsOrderStatus()
         {
             // arrange
             var command = Fixture.Create<SubmitPaymentCommand>();
@@ -113,7 +113,7 @@ namespace PaymentGateway.Processing.Tests.Managers.CreatePaymentManagerTests
                 .ReturnsAsync(new BankPaymentResponse {IsSuccessful = false, Id = Guid.NewGuid()});
 
             // act
-            await SUT.ExecuteAsync(command);
+            await SUT.ProcessPaymentAsync(command);
 
             // assert
             PaymentRepositoryMock
@@ -121,7 +121,7 @@ namespace PaymentGateway.Processing.Tests.Managers.CreatePaymentManagerTests
         }
 
         [Fact]
-        public async Task ExecuteAsync_OnBankError_ReportsToTelemetry()
+        public async Task ProcessPaymentAsync_OnBankError_ReportsToTelemetry()
         {
             // arrange
             var command = Fixture.Create<SubmitPaymentCommand>();
@@ -136,7 +136,7 @@ namespace PaymentGateway.Processing.Tests.Managers.CreatePaymentManagerTests
                 .ThrowsAsync(new InvalidOperationException());
 
             // act
-            await SUT.ExecuteAsync(command);
+            await SUT.ProcessPaymentAsync(command);
 
             // assert
             TelemetrySubmitterMock

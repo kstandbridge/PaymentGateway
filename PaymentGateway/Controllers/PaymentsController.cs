@@ -13,6 +13,9 @@ using PaymentGateway.Telemetry.Submitters;
 
 namespace PaymentGateway.Controllers
 {
+    /// <summary>
+    /// The Payments controller.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class PaymentsController : ControllerBase
@@ -34,6 +37,11 @@ namespace PaymentGateway.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Gets a payment.
+        /// </summary>
+        /// <param name="id">The unique identifier.</param>
+        /// <returns>The payment.</returns>
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status200OK, typeof(GetPayment))]
         [SwaggerResponse(StatusCodes.Status404NotFound, typeof(void))]
@@ -69,6 +77,11 @@ namespace PaymentGateway.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Creates a payment.
+        /// </summary>
+        /// <param name="createPayment">The create payment request.</param>
+        /// <returns>The created payment.</returns>
         [HttpPost]
         [SwaggerResponse(StatusCodes.Status201Created, typeof(GetPayment))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, typeof(void))]

@@ -10,6 +10,10 @@ using PaymentGateway.Telemetry.Submitters;
 
 namespace PaymentGateway.Processing.Managers
 {
+    /// <summary>
+    /// The CreatePaymentManager
+    /// This is responsible for getting a pending payment in the system, calling the external bank and updating the status of the payment
+    /// </summary>
     public class CreatePaymentManager : ICreatePaymentManager
     {
         private readonly IPaymentRepository _paymentRepository;
@@ -29,12 +33,18 @@ namespace PaymentGateway.Processing.Managers
             _logger = logger;
         }
 
-
-        public async Task ExecuteAsync(SubmitPaymentCommand submitPaymentCommand)
+        /// <summary>
+        /// Processes the pending payment
+        /// Without knowing the internals of the bank, we can assume a response containing the success along with a unique identifier
+        /// This has been abstracted into the IBankServiceClient
+        /// </summary>
+        /// <param name="submitPaymentCommand">The payment command.</param>
+        /// <returns></returns>
+        public async Task ProcessPaymentAsync(SubmitPaymentCommand submitPaymentCommand)
         {
             _logger.LogInformation("Processing payment Id: {0}", submitPaymentCommand.PaymentId);
 
-            using (var operation = _telemetrySubmitter.BeginTimedOperation(new ServiceOperation(nameof(CreatePaymentProcessor), nameof(ExecuteAsync))))
+            using (var operation = _telemetrySubmitter.BeginTimedOperation(new ServiceOperation(nameof(CreatePaymentProcessor), nameof(ProcessPaymentAsync))))
             {
                 try
                 {

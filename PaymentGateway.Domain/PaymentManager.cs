@@ -6,6 +6,10 @@ using PaymentGateway.Processing.Queues;
 
 namespace PaymentGateway.Domain
 {
+    /// <summary>
+    /// The Payment manager
+    /// Following a domain driven design, this is mainly responsible for ensuring a conversion is done from internal Payment models to external GetPayment requests
+    /// </summary>
     public class PaymentManager : IPaymentManager
     {
         private readonly ICommandQueue<SubmitPaymentCommand> _submitPaymentCommandQueue;
@@ -19,6 +23,11 @@ namespace PaymentGateway.Domain
             _paymentRepository = paymentRepository;
         }
 
+        /// <summary>
+        /// Gets an existing payment using is unique identifier
+        /// </summary>
+        /// <param name="id">The unique identifier.</param>
+        /// <returns>The get payment response.</returns>
         public async Task<GetPayment> GetByIdAsync(Guid id)
         {
             var payment = await _paymentRepository.GetByIdAsync(id);
@@ -28,6 +37,11 @@ namespace PaymentGateway.Domain
             return new GetPayment(payment);
         }
 
+        /// <summary>
+        /// Creates a new payment in the system to be handled by backend processors.
+        /// </summary>
+        /// <param name="createPayment">The create payment request.</param>
+        /// <returns>The get payment response.</returns>
         public async Task<GetPayment> CreateAsync(CreatePayment createPayment)
         {
             var payment = await _paymentRepository.CreateAsync(createPayment);

@@ -27,7 +27,7 @@ namespace PaymentGateway.Processing
             {
                 var submitPaymentCommand = await _commandQueue.DequeueAsync(stoppingToken);
 
-                await _createPaymentManager.ExecuteAsync(submitPaymentCommand);
+                await _createPaymentManager.ProcessPaymentAsync(submitPaymentCommand);
             }
         }
     }

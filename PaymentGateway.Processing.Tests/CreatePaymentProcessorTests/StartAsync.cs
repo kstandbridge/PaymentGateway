@@ -17,7 +17,7 @@ namespace PaymentGateway.Processing.Tests.CreatePaymentProcessorTests
 
             CommandQueueMock.Setup(m => m.DequeueAsync(It.IsAny<CancellationToken>())).ReturnsAsync(command);
             CreatePaymentManagerMock
-                .Setup(m => m.ExecuteAsync(command))
+                .Setup(m => m.ProcessPaymentAsync(command))
                 .Callback<SubmitPaymentCommand>(t => SUT.Dispose())
                 .Returns(Task.CompletedTask);
 
@@ -25,7 +25,7 @@ namespace PaymentGateway.Processing.Tests.CreatePaymentProcessorTests
             await SUT.StartAsync(CancellationToken.None);
 
             // assert
-            CreatePaymentManagerMock.Verify(m=>m.ExecuteAsync(command));
+            CreatePaymentManagerMock.Verify(m=>m.ProcessPaymentAsync(command));
         }
     }
 }

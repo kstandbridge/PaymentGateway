@@ -6,11 +6,14 @@ using PaymentGateway.Contracts;
 
 namespace PaymentGateway.Data
 {
+    /// <summary>
+    /// The InMemory payment repository
+    /// This makes use of a ConcurrentDictionary to store payments, there is no data persistence between sessions
+    /// Purely an example repository that could be replaced with Couchbase or similar built against the same IPaymentRepository
+    /// </summary>
     public class InMemoryPaymentRepository : IPaymentRepository
     {
         private readonly ConcurrentDictionary<string, Payment> _paymentData = new ConcurrentDictionary<string, Payment>();
-
-        private static volatile ConcurrentDictionary<string, object> _locks = new ConcurrentDictionary<string, object>();
 
         private readonly IClock _clock;
 
@@ -42,19 +45,8 @@ namespace PaymentGateway.Data
                 PaymentStatus = PaymentStatus.InProgress
             };
 
-            var lockObj = _locks.GetOrAdd(payment.GetKey(), new object());
 
-            lock (lockObj)
-            {
-                try
-                {
-                    payment = _paymentData.GetOrAdd(payment.GetKey(), payment);
-                }
-                finally
-                {
-                    _locks.TryRemove(payment.GetKey(), out _);
-                }
-            }
+            payment = _paymentData.GetOrAdd(payment.GetKey(), payment);
 
             return Task.FromResult<Payment>(payment);
         }
@@ -64,19 +56,7 @@ namespace PaymentGateway.Data
             updatePayment.LastUpdatedAt = _clock.GetCurrentInstant().ToDateTimeUtc();
             var key = Payment.GenerateKey(updatePayment.Id);
 
-            var lockObj = _locks.GetOrAdd(key, new object());
-
-            lock (lockObj)
-            {
-                try
-                {
-                    _paymentData.AddOrUpdate(key, updatePayment, (k, v) => updatePayment);
-                }
-                finally
-                {
-                    _locks.TryRemove(key, out _);
-                }
-            }
+            _paymentData.AddOrUpdate(key, updatePayment, (k, v) => updatePayment);
 
             return GetByIdAsync(updatePayment.Id);
         }

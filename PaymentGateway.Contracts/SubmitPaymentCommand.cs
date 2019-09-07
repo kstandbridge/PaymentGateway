@@ -2,6 +2,9 @@
 
 namespace PaymentGateway.Contracts
 {
+    /// <summary>
+    /// Represents a submit payment command
+    /// </summary>
     public class SubmitPaymentCommand
     {
         
@@ -10,6 +13,9 @@ namespace PaymentGateway.Contracts
             PaymentId = paymentId;
         }
 
+        /// <summary>
+        /// The payment unique identifier.
+        /// </summary>
         public Guid PaymentId { get; }
     }
 }
