@@ -19,17 +19,8 @@ $ docker-compose up -d --build
 ```
 Then navigate to: http://localhost:6125/swagger
 
-# TODO
-* Application metrics 
- AppMetrics
-* Authentication 
- OpenID?
-* Build script / CI 
- github actions?
-* Performance testing 
- https://docs.microsoft.com/en-us/aspnet/core/test/load-tests?view=aspnetcore-2.2
- Look into Locust
- Maybe create a Docker file to spin up instances and spam it
- https://medium.com/@taylor.collins/performance-testing-a-net-core-web-api-endpoint-8c859f889fb6
-* Encryption 
- More of an infrastructure kind of thing, TLS certificates/checks between different instance?
+# Backlog
+* Setup Application metrics using AppMetrics or similar
+* Add Authentication possibly using OpenID with IdentityService
+* Setup a Build script for CI
+* Look into Performance testing wth Locust
